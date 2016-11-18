@@ -217,3 +217,27 @@ Sort.algorithm.registerCallback('combSort', function(el)
 		}
 	}
 });
+
+Sort.algorithm.registerCallback('gnomeSort', function(el)
+{
+	var kernel = function( el, q )
+	{
+		var current = q;
+
+		while ( (current > 0) && Sort.helper.max(el[current - 1], el[current]) )
+		{
+			Sort.helper.swap(el, current - 1, current);
+
+			current--;
+		}
+	};
+
+	return ({
+		sort: function()
+		{
+			for ( var i = 1; i < el.length; i++ ) {
+				kernel(el, i);
+			}
+		}
+	});
+});
