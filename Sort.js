@@ -87,6 +87,14 @@ Sort.helper.registerCallback('max', function(x, y)
 	return ( x > y ? true : false );
 });
 
+Sort.helper.registerCallback('maxOrEquals', function(x, y)
+{
+	if ( !this.isNumber(x) || !this.isNumber(y) )
+		throw new Error("x !== Number or y !== Number");
+
+	return ( x >= y ? true : false );
+});
+
 Sort.helper.registerCallback('generateRandomData', function(max, n)
 {
 	if ( !Sort.helper.isNumber(max) || !Sort.helper.isNumber(n) )
@@ -407,6 +415,94 @@ Sort.algorithm.registerCallback('selectionSort', function(el)
 		if ( !Sort.helper.equals(min, i) )
 		{
 			Sort.helper.swap(el, min, i);
+		}
+	});
+});
+
+/*
+ * @method: heapSort
+ *
+ * @param:
+ *	- el = array/tuple/data to sort
+ *
+ * @submethod: sort
+ *
+ * @param: none
+ */
+Sort.algorithm.registerCallback('heapSort', function(el)
+{
+	var parent = function( q )
+	{
+		return Math.floor(q / 2);
+	};
+
+	var leftChild = function( q )
+	{
+		return ((2 * q) + 1);
+	};
+
+	var rightChild = function( q )
+	{
+		return ((2 * q) + 2);
+	};
+
+	var maxHeapify = function(start, l)
+	{
+		var left;
+		var right;
+		var max;
+
+		while ( true ) {
+			left = leftChild(start);
+			right = rightChild(start);
+			max = start;
+
+			if ( Sort.helper.min(left, l) &&
+				 Sort.helper.max(el[left], el[max]) )
+			{
+				max = left;
+			}
+
+			if ( Sort.helper.min(right, l) &&
+				 Sort.helper.max(el[right], el[max]) )
+			{
+				max = right;
+			}
+
+			if ( Sort.helper.equals(max, start) )
+			{
+				break;
+			}
+
+			Sort.helper.swap(el, start, max);
+
+			start = max;
+		}
+	};
+
+	var heapify = function(l)
+	{
+		var start = parent(l - 1);
+
+		for ( var i = start; i >= 0; i-- )
+		{
+			maxHeapify(i, l);
+		}
+	};
+
+	return ({
+		sort: function() {
+			if ( !Sort.helper.isArray(el) )
+				throw new Error("el !== Array");
+
+			heapify(el.length);
+
+			for ( var i = el.length - 1; i > 0; i-- )
+			{
+				Sort.helper.swap(el, i, 0);
+
+				maxHeapify(0, i - 1);
+			}
 		}
 	});
 });
