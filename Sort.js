@@ -119,8 +119,10 @@ Sort.algorithm.registerCallback('cocktailShakerSort', function(el)
 		swapped = false;
 
 		/* do top-down first */
-		for ( var i = 1; i < el.length; i++ ) {
-			if ( Sort.helper.max(el[i - 1], el[i]) ) {
+		for ( var i = 1; i < el.length; i++ )
+		{
+			if ( Sort.helper.max(el[i - 1], el[i]) )
+			{
 				Sort.helper.swap(el, i - 1, i);
 
 				swapped = true;
@@ -132,12 +134,46 @@ Sort.algorithm.registerCallback('cocktailShakerSort', function(el)
 			break;
 
 		/* if swapped, then do down-top */
-		for ( var i = (el.length - 2); i >= 0; i-- ) {
-			if ( Sort.helper.max(el[i], el[i + 1]) ) {
+		for ( var i = (el.length - 2); i >= 0; i-- )
+		{
+			if ( Sort.helper.max(el[i], el[i + 1]) )
+			{
 				Sort.helper.swap(el, i, i + 1);
 
 				swapped = true;
 			}
 		}
 	} while ( swapped );
+});
+
+Sort.algorithm.registerCallback('oddEvenSort', function(el)
+{
+	if ( !Sort.helper.isArray(el) )
+		throw new Error("el !== Array");
+
+	var sorted = false;
+
+	while ( !sorted ) {
+		sorted = true;
+
+		for ( var i = 1; i < el.length; i++ )
+		{
+			if ( Sort.helper.max(el[i - 1], el[i]) )
+			{
+				Sort.helper.swap(el, i - 1, i);
+
+				sorted = false;
+			}
+		}
+
+		for ( var i = 1; i < el.length; i++ )
+		{
+			if ( Sort.helper.max(el[i - 1], el[i]) )
+			{
+				Sort.helper.swap(el, i - 1, i);
+
+				sorted = false;
+			}
+		}
+	}
 });
