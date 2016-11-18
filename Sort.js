@@ -295,3 +295,26 @@ Sort.algorithm.registerCallback('quickSort', function(el)
 		}
 	});
 });
+
+Sort.algorithm.registerCallback('stoogeSort', function(el, l, h) {
+	if ( !Sort.helper.isArray(el) || !Sort.helper.isNumber(l) ||
+		 !Sort.helper.isNumber(h) )
+		throw new Error("Prerequisite not satisfiable.");
+
+	if ( h == el.length )
+		h--;
+
+	if ( Sort.helper.min(el[h], el[l]) )
+	{
+		Sort.helper.swap(el, l, h);
+	}
+
+	if ( Sort.helper.max(h - l + 1, 2) )
+	{
+		var t = Math.floor((h - l + 1) / 3);
+
+		this.stoogeSort(el, l, h - t);
+		this.stoogeSort(el, l + t, h);
+		this.stoogeSort(el, l, h - t);
+	}
+});
