@@ -57,6 +57,13 @@ Sort.helper.registerCallback('swap', function(el, x, y)
 	el[y] = tmp;
 });
 
+Sort.helper.registerCallback('equals', function(x, y) {
+	if ( !this.isNumber(x) || !this.isNumber(y) )
+		throw new Error("x !== Number or y !== Number");
+
+	return ( x === y ? true : false );
+});
+
 Sort.helper.registerCallback('min', function(x, y)
 {
 	if ( !this.isNumber(x) || !this.isNumber(y) )
@@ -350,7 +357,8 @@ Sort.algorithm.registerCallback('quickSort', function(el)
  *	- l = lower bound of the array
  *	- h = upper bound of the array
  */
-Sort.algorithm.registerCallback('stoogeSort', function(el, l, h) {
+Sort.algorithm.registerCallback('stoogeSort', function(el, l, h)
+{
 	if ( !Sort.helper.isArray(el) || !Sort.helper.isNumber(l) ||
 		 !Sort.helper.isNumber(h) )
 		throw new Error("Prerequisite not satisfiable.");
@@ -371,4 +379,34 @@ Sort.algorithm.registerCallback('stoogeSort', function(el, l, h) {
 		this.stoogeSort(el, l + t, h);
 		this.stoogeSort(el, l, h - t);
 	}
+});
+
+/*
+ * @method: selectionSort
+ *
+ * @param:
+ *	- el = array/tuple/list to sort
+ */
+Sort.algorithm.registerCallback('selectionSort', function(el)
+{
+	if ( !Sort.helper.isArray(el) )
+		throw new Error("el !== Array");
+
+	Array.prototype.forEach.call(el, function(p, i)
+	{
+		var min = i;
+
+		for ( var j = i + 1; j < el.length; j++ )
+		{
+			if ( Sort.helper.min(el[j], el[min]) )
+			{
+				min = j;
+			}
+		}
+
+		if ( !Sort.helper.equals(min, i) )
+		{
+			Sort.helper.swap(el, min, i);
+		}
+	});
 });
