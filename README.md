@@ -1,1 +1,3 @@
-# sort-js
+# Sort.js
+
+Various algorithm for sorting data.
