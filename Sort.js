@@ -177,3 +177,43 @@ Sort.algorithm.registerCallback('oddEvenSort', function(el)
 		}
 	}
 });
+
+Sort.algorithm.registerCallback('combSort', function(el)
+{
+	if ( !Sort.helper.isArray(el) )
+		throw new Error("el !== Array");
+
+	var gap = el.length;
+	var shrinkFactor = 1.3;
+	var sorted = false;
+
+	while ( !sorted )
+	{
+		gap = Math.floor(gap / shrinkFactor);
+
+		if ( gap > 1 )
+		{
+			sorted = false;
+		}
+		else
+		{
+			gap = 1;
+
+			sorted = true;
+		}
+
+		var i = 0;
+
+		while ( (i + gap) < (el.length) )
+		{
+			if ( Sort.helper.max(el[i], el[i + gap]) )
+			{
+				Sort.helper.swap(el, i, i + gap);
+
+				sorted = false;
+			}
+
+			i++;
+		}
+	}
+});
