@@ -50,9 +50,11 @@ Sort.helper.registerCallback('swap', function(el, x, y)
 	if ( !this.isArray(el) || !this.isNumber(x) || !this.isNumber(y) )
 		throw new Error("Prerequisite not satisfied.");
 
-	el[x] ^= el[y];
-	el[y] ^= el[x];
-	el[x] ^= el[y];
+	var tmp;
+
+	tmp = el[x];
+	el[x] = el[y];
+	el[y] = tmp;
 });
 
 Sort.helper.registerCallback('min', function(x, y)
@@ -61,6 +63,13 @@ Sort.helper.registerCallback('min', function(x, y)
 		throw new Error("x !== Number or y !== Number");
 
 	return ( x < y ? true : false );
+});
+
+Sort.helper.registerCallback('minOrEquals', function(x, y) {
+	if ( !this.isNumber(x) || !this.isNumber(y) )
+		throw new Error("x !== Number or y !== Number");
+
+	return ( x <= y ? true : false );
 });
 
 Sort.helper.registerCallback('max', function(x, y)
@@ -235,8 +244,53 @@ Sort.algorithm.registerCallback('gnomeSort', function(el)
 	return ({
 		sort: function()
 		{
+			if ( !Sort.helper.isArray(el) )
+				throw new Error("el !== Array");
+
 			for ( var i = 1; i < el.length; i++ ) {
 				kernel(el, i);
+			}
+		}
+	});
+});
+
+Sort.algorithm.registerCallback('quickSort', function(el)
+{
+	var kernel = function(l, h)
+	{
+		var pivot = el[h];
+		var i = l;
+
+		for ( var j = l; j < h; j++ )
+		{
+			if ( Sort.helper.minOrEquals(el[j], pivot) )
+			{
+				Sort.helper.swap(el, i, j);
+
+				i++;
+			}
+		}
+
+		Sort.helper.swap(el, i, h);
+
+		return ( i );
+	};
+
+	return ({
+		sort: function(l, h)
+		{
+			if ( !Sort.helper.isArray(el) || !Sort.helper.isNumber(l) ||
+				 !Sort.helper.isNumber(h) )
+				throw new Error("Prerequisite not satisfiable.");
+
+			if ( h == el.length )
+				h--;
+
+			if ( l < h ) {
+				var r = kernel(l, h);
+
+				this.sort(l, r - 1);
+				this.sort(r + 1, h);
 			}
 		}
 	});
