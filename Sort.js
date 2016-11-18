@@ -94,6 +94,12 @@ Sort.helper.registerCallback('generateRandomData', function(max, n)
 	return ( container );
 });
 
+/*
+ * @method: bubbleSort
+ *
+ * @param:
+ *	- el = array/tuple/list to sort
+ */
 Sort.algorithm.registerCallback('bubbleSort', function( el )
 {
 	if ( !Sort.helper.isArray(el) )
@@ -117,6 +123,12 @@ Sort.algorithm.registerCallback('bubbleSort', function( el )
 	}
 });
 
+/*
+ * @method: cocktailShakerSort
+ *
+ * @param:
+ *	- el = array/list/tuple to sort
+ */
 Sort.algorithm.registerCallback('cocktailShakerSort', function(el)
 {
 	if ( !Sort.helper.isArray(el) )
@@ -155,6 +167,12 @@ Sort.algorithm.registerCallback('cocktailShakerSort', function(el)
 	} while ( swapped );
 });
 
+/*
+ * @method: oddEvenSort
+ *
+ * @param:
+ *	- el = array/tuple/list to sort
+ */
 Sort.algorithm.registerCallback('oddEvenSort', function(el)
 {
 	if ( !Sort.helper.isArray(el) )
@@ -187,6 +205,12 @@ Sort.algorithm.registerCallback('oddEvenSort', function(el)
 	}
 });
 
+/*
+ * @method: combSort
+ *
+ * @param:
+ *	- el = array/tuple/list to sort
+ */
 Sort.algorithm.registerCallback('combSort', function(el)
 {
 	if ( !Sort.helper.isArray(el) )
@@ -227,6 +251,16 @@ Sort.algorithm.registerCallback('combSort', function(el)
 	}
 });
 
+/*
+ * @method: gnomeSort
+ *
+ * @param:
+ *	- el = array/tuple/list to sort
+ *
+ * @submethod: sort
+ *
+ * @param: none
+ */
 Sort.algorithm.registerCallback('gnomeSort', function(el)
 {
 	var kernel = function( el, q )
@@ -254,6 +288,18 @@ Sort.algorithm.registerCallback('gnomeSort', function(el)
 	});
 });
 
+/*
+ * @method: quickSort
+ *
+ * @param:
+ *	- el = array/tuple/list to sort
+ *
+ * @submethod: sort
+ *
+ * @param:
+ *	- l = lower bound of the array (default: 0)
+ *	- h = upper bound of the array (default: el.length)
+ */
 Sort.algorithm.registerCallback('quickSort', function(el)
 {
 	var kernel = function(l, h)
@@ -296,6 +342,14 @@ Sort.algorithm.registerCallback('quickSort', function(el)
 	});
 });
 
+/*
+ * @method: stoogeSort
+ *
+ * @param:
+ *	- el = array/tuple/list to sort
+ *	- l = lower bound of the array
+ *	- h = upper bound of the array
+ */
 Sort.algorithm.registerCallback('stoogeSort', function(el, l, h) {
 	if ( !Sort.helper.isArray(el) || !Sort.helper.isNumber(l) ||
 		 !Sort.helper.isNumber(h) )
