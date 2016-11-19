@@ -1,11 +1,19 @@
 /*
- * Sort.js - Various algorithm for sorting data
+ * Sort.js - Implementation of various algorithm for sorting data
  *
  * Paulus Gandung Prakosa (gandung@ppp.cylab.cmu.edu)
  */
 
+'use strict'
+
 var Sort = {};
 
+/*
+ * @method: create
+ *
+ * @param:
+ *	- name: name of the container
+ */
 Sort.create = function( name )
 {
 	if ( name.constructor !== String )
@@ -14,6 +22,13 @@ Sort.create = function( name )
 	this[name] = this;
 };
 
+/*
+ * @method: registerCallback
+ *
+ * @param:
+ *	- name: name of the function
+ *	- fn: user-defined callback
+ */
 Sort.registerCallback = function( name, fn )
 {
 	if ( name.constructor !== String || fn.constructor !== Function )
@@ -22,29 +37,68 @@ Sort.registerCallback = function( name, fn )
 	this[name] = fn;
 };
 
+/*
+ * Create object container for various helper function.
+ */
 Sort.create('helper');
+
+/*
+ * Create object container for various algorithm function.
+ */
 Sort.create('algorithm');
 
+/*
+ * @method: isString
+ *
+ * @param:
+ *	- x: value to evaluate
+ */
 Sort.helper.registerCallback('isString', function(x)
 {
 	return ( x.constructor !== String ? false : true );
 });
 
+/*
+ * @method: isFunction
+ *
+ * @param:
+ *	- x: value to evaluate
+ */
 Sort.helper.registerCallback('isFunction', function(x)
 {
 	return ( x.constructor !== Function ? false : true );
 });
 
+/*
+ * @method: isArray
+ *
+ * @param:
+ *	- x: value to evaluate
+ */
 Sort.helper.registerCallback('isArray', function(x)
 {
 	return ( x.constructor !== Array ? false : true );
 });
 
+/*
+ * @method: isNumber
+ *
+ * @param:
+ *	- x: value to evaluate
+ */
 Sort.helper.registerCallback('isNumber', function(x)
 {
 	return ( x.constructor !== Number ? false : true );
 });
 
+/*
+ * @method: swap
+ *
+ * @param:
+ *	- el: array
+ *	- x: value
+ *	- y: value
+ */
 Sort.helper.registerCallback('swap', function(el, x, y)
 {
 	if ( !this.isArray(el) || !this.isNumber(x) || !this.isNumber(y) )
@@ -57,13 +111,42 @@ Sort.helper.registerCallback('swap', function(el, x, y)
 	el[y] = tmp;
 });
 
-Sort.helper.registerCallback('equals', function(x, y) {
+/*
+ * @method: equals
+ *
+ * @param:
+ *	- x: value
+ *	- y: value
+ */
+Sort.helper.registerCallback('equals', function(x, y)
+{
 	if ( !this.isNumber(x) || !this.isNumber(y) )
 		throw new Error("x !== Number or y !== Number");
 
 	return ( x === y ? true : false );
 });
 
+/*
+ * @method: equalsToZero
+ *
+ * @param:
+ *	- x: value
+ */
+Sort.helper.registerCallback('equalsToZero', function(x)
+{
+	if ( !this.isNumber(x) )
+		throw new Error("x !== Number");
+
+	return ( this.equals(x, 0) ? true : false );
+});
+
+/*
+ * @method: min
+ *
+ * @param:
+ *	- x: value
+ *	- y: value
+ */
 Sort.helper.registerCallback('min', function(x, y)
 {
 	if ( !this.isNumber(x) || !this.isNumber(y) )
@@ -72,13 +155,56 @@ Sort.helper.registerCallback('min', function(x, y)
 	return ( x < y ? true : false );
 });
 
-Sort.helper.registerCallback('minOrEquals', function(x, y) {
+/*
+ * @method: minFromZero
+ *
+ * @param:
+ *	- x: value
+ */
+Sort.helper.registerCallback('minFromZero', function(x)
+{
+	if ( !this.isNumber(x) )
+		throw new Error("x !== Number");
+
+	return ( this.min(x, 0) ? true : false );
+});
+
+/*
+ * @method: minOrEquals
+ *
+ * @param:
+ *	- x: value
+ *	- y: value
+ */
+Sort.helper.registerCallback('minOrEquals', function(x, y)
+{
 	if ( !this.isNumber(x) || !this.isNumber(y) )
 		throw new Error("x !== Number or y !== Number");
 
 	return ( x <= y ? true : false );
 });
 
+/*
+ * @method: minOrEqualsFromZero
+ *
+ * @param:
+ *	- x: value
+ */
+Sort.helper.registerCallback('minOrEqualsFromZero', function(x)
+{
+	if ( !this.isNumber(x) )
+		throw new Error("x !== Number");
+
+	return ( this.minOrEquals(x, 0) ? true : false );
+});
+
+/*
+ * @method: max
+ *
+ * @param:
+ *	- x: value
+ *	- y: value
+ */
 Sort.helper.registerCallback('max', function(x, y)
 {
 	if ( !this.isNumber(x) || !this.isNumber(y) )
@@ -87,6 +213,27 @@ Sort.helper.registerCallback('max', function(x, y)
 	return ( x > y ? true : false );
 });
 
+/*
+ * @method: maxFromZero
+ *
+ * @param:
+ *	- x: value
+ */
+Sort.helper.registerCallback('maxFromZero', function(x)
+{
+	if ( !this.isNumber(x) )
+		throw new Error("x !== Number");
+
+	return ( this.max(x, 0) ? true : false );
+});
+
+/*
+ * @method: maxOrEquals
+ *
+ * @param:
+ *	- x: value
+ *	- y: value
+ */
 Sort.helper.registerCallback('maxOrEquals', function(x, y)
 {
 	if ( !this.isNumber(x) || !this.isNumber(y) )
@@ -95,6 +242,27 @@ Sort.helper.registerCallback('maxOrEquals', function(x, y)
 	return ( x >= y ? true : false );
 });
 
+/*
+ * @method: maxOrEqualsFromZero
+ *
+ * @param:
+ *	- x: value
+ */
+Sort.helper.registerCallback('maxOrEqualsFromZero', function(x)
+{
+	if ( !this.isNumber(x) )
+		throw new Error("x !== Number");
+
+	return ( this.maxOrEquals(x, 0) ? true : false );
+});
+
+/*
+ * @method: generateRandomData
+ *
+ * @param:
+ *	- max: value
+ *	- n: value
+ */
 Sort.helper.registerCallback('generateRandomData', function(max, n)
 {
 	if ( !Sort.helper.isNumber(max) || !Sort.helper.isNumber(n) )
@@ -113,7 +281,7 @@ Sort.helper.registerCallback('generateRandomData', function(max, n)
  * @method: bubbleSort
  *
  * @param:
- *	- el = array/tuple/list to sort
+ *	- el: array/tuple/list to sort
  */
 Sort.algorithm.registerCallback('bubbleSort', function( el )
 {
@@ -142,7 +310,7 @@ Sort.algorithm.registerCallback('bubbleSort', function( el )
  * @method: cocktailShakerSort
  *
  * @param:
- *	- el = array/list/tuple to sort
+ *	- el: array/list/tuple to sort
  */
 Sort.algorithm.registerCallback('cocktailShakerSort', function(el)
 {
@@ -186,7 +354,7 @@ Sort.algorithm.registerCallback('cocktailShakerSort', function(el)
  * @method: oddEvenSort
  *
  * @param:
- *	- el = array/tuple/list to sort
+ *	- el: array/tuple/list to sort
  */
 Sort.algorithm.registerCallback('oddEvenSort', function(el)
 {
@@ -224,7 +392,7 @@ Sort.algorithm.registerCallback('oddEvenSort', function(el)
  * @method: combSort
  *
  * @param:
- *	- el = array/tuple/list to sort
+ *	- el: array/tuple/list to sort
  */
 Sort.algorithm.registerCallback('combSort', function(el)
 {
@@ -270,7 +438,7 @@ Sort.algorithm.registerCallback('combSort', function(el)
  * @method: gnomeSort
  *
  * @param:
- *	- el = array/tuple/list to sort
+ *	- el: array/tuple/list to sort
  *
  * @submethod: sort
  *
@@ -307,13 +475,13 @@ Sort.algorithm.registerCallback('gnomeSort', function(el)
  * @method: quickSort
  *
  * @param:
- *	- el = array/tuple/list to sort
+ *	- el: array/tuple/list to sort
  *
  * @submethod: sort
  *
  * @param:
- *	- l = lower bound of the array (default: 0)
- *	- h = upper bound of the array (default: el.length)
+ *	- l: lower bound of the array (default: 0)
+ *	- h: upper bound of the array (default: el.length)
  */
 Sort.algorithm.registerCallback('quickSort', function(el)
 {
@@ -361,9 +529,9 @@ Sort.algorithm.registerCallback('quickSort', function(el)
  * @method: stoogeSort
  *
  * @param:
- *	- el = array/tuple/list to sort
- *	- l = lower bound of the array
- *	- h = upper bound of the array
+ *	- el: array/tuple/list to sort
+ *	- l: lower bound of the array
+ *	- h: upper bound of the array
  */
 Sort.algorithm.registerCallback('stoogeSort', function(el, l, h)
 {
@@ -393,7 +561,7 @@ Sort.algorithm.registerCallback('stoogeSort', function(el, l, h)
  * @method: selectionSort
  *
  * @param:
- *	- el = array/tuple/list to sort
+ *	- el: array/tuple/list to sort
  */
 Sort.algorithm.registerCallback('selectionSort', function(el)
 {
@@ -423,7 +591,7 @@ Sort.algorithm.registerCallback('selectionSort', function(el)
  * @method: heapSort
  *
  * @param:
- *	- el = array/tuple/data to sort
+ *	- el: array/tuple/data to sort
  *
  * @submethod: sort
  *
