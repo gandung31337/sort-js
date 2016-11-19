@@ -431,21 +431,6 @@ Sort.algorithm.registerCallback('selectionSort', function(el)
  */
 Sort.algorithm.registerCallback('heapSort', function(el)
 {
-	var parent = function( q )
-	{
-		return Math.floor(q / 2);
-	};
-
-	var leftChild = function( q )
-	{
-		return ((2 * q) + 1);
-	};
-
-	var rightChild = function( q )
-	{
-		return ((2 * q) + 2);
-	};
-
 	var maxHeapify = function(start, l)
 	{
 		var left;
@@ -453,8 +438,8 @@ Sort.algorithm.registerCallback('heapSort', function(el)
 		var max;
 
 		while ( true ) {
-			left = leftChild(start);
-			right = rightChild(start);
+			left = (2 * start) + 1;
+			right = (2 * start) + 2;
 			max = start;
 
 			if ( Sort.helper.min(left, l) &&
@@ -482,7 +467,7 @@ Sort.algorithm.registerCallback('heapSort', function(el)
 
 	var heapify = function(l)
 	{
-		var start = parent(l - 1);
+		var start = Math.floor((l - 1) / 2);
 
 		for ( var i = start; i >= 0; i-- )
 		{
