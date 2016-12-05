@@ -659,3 +659,27 @@ Sort.algorithm.registerCallback('heapSort', function(el)
 		}
 	});
 });
+
+/*
+ * @method: insertionSort
+ *
+ * @param:
+ *  - el: array/tuple/list to sort
+ */
+Sort.algorithm.registerCallback('insertionSort', function(el)
+{
+	for ( var i = 1; i < el.length; i++ )
+	{
+		var tmp = el[i];
+		var inner = i - 1;
+
+		while ( Sort.helper.maxOrEqualsFromZero(inner) && Sort.helper.max(el[inner], tmp) )
+		{
+			el[inner + 1] = el[inner];
+
+			inner--;
+		}
+
+		el[inner + 1] = tmp;
+	}
+});
